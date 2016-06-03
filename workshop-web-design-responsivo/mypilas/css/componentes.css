@@ -3,6 +3,7 @@
 \*******************/
 
 .plano {
+	position: relative;
 	padding: 10px;
 	border: 1px solid #95a4a5;
 	border-radius: 3px;
@@ -43,6 +44,18 @@
 		margin: 20px 0;
 	}
 
+	.plano--mais-popular::after {
+		position: absolute;
+		top: -10px;
+		left: -10px;
+		background-color: #c20303;
+		color: #fff;
+		font-size: 0.7142em;
+		line-height: 2.5;
+		padding: 0 10px;
+		content: "MAIS POPULAR"
+	}
+
 /*******************\
 	  	BOTAO
 \*******************/
@@ -54,6 +67,7 @@
 	color: white;
 	padding: 12px 16px;
 	text-decoration: none;
+	line-height: normal;
 }
 
 	.botao:hover, .botao:focus {
@@ -62,12 +76,13 @@
 		color: #fff;
 	}
 
-	.botao--assinar {
+	.botao--assinar , .botao--login {
 		background-color: #127d00;
 	}
 
-	.botao--assinar:hover, .botao--assinar:focus {
-		background-color: #0e6400;
+	.botao--assinar:hover, .botao--assinar:focus
+	..botao--login:hover,  .botao--login:focus {
+		background-color: #32CD32;
 	}
 
 	.botao--principal {
@@ -126,10 +141,20 @@
 	}
 
 	.depoimento blockquote {
+		position: relative;
 		margin: 0;
 		padding: 0 60px;
 		text-align: center;
 		font-size: 1em
+	}
+
+	.depoimento blockquote::before {
+		position: absolute;
+		color: #ccc;
+		content: "\201C";
+		left: 0;
+		top: -0.37em;
+		font-size: 8em;
 	}
 
 	.depoimento__autor {
@@ -145,3 +170,58 @@
 	.depoimento__autor p {
 		margin-top: 10px;
 	}
+
+/*******************\
+	 NAVEGACAO
+\*******************/
+.navegacao {
+
+}
+
+	.navegacao--menu {
+		 float: right;
+	}
+
+/*******************\
+	BOTAO_CHAVEADOR
+\*******************/
+.botao-chaveador {
+	width: 24px;
+	height: 24px;
+	border: 0;
+	background: none;
+	background-image: url("../imagens/bars.png");
+	outline: none;
+}
+
+@media (min-width: 992px) {
+	.botao-chaveador {
+		display: none;
+	}
+}
+
+/*******************\
+	MENU
+\*******************/
+
+.menu {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: 200px;
+	margin: 0;
+	list-style: none;
+	font-size: 1rem;
+	background-color: #fbfbfb;
+	border-right: 1px solid #eee;
+}
+
+	.menu__item {
+		display: block;
+		line-height: 3;
+	}
+
+.menu__item--botao {
+	margin-top: 20px;
+}
