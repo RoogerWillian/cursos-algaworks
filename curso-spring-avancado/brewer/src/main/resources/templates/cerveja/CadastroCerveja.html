@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Cadastro de cerveja</title>
+</head>
+<body>
+	<h1>Olá! Thymeleaf configurado</h1>
+	<form method="post">
+		<span th:text="${mensagem}"></span>
+		<br>
+		<label>SKU:</label>
+		<input type="text" name="sku"/>
+		<br>
+		<br>
+		<label>Nome:</label>
+		<input type="text" name="nome"/>
+		<br>
+		<br>
+		<label>Descricão:</label>
+		<input type="text" name="descricao"/>
+		<button type="submit">Enviar</button>
+	</form>
+</body>
+</html>
