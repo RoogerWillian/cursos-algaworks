@@ -10,6 +10,11 @@
 
 	<web>
 		<link target="/">
+			<dir name="/home/roger/projetos-git/cursos-algaworks/curso-spring-js-bootstrap/brewer/target/m2e-wtp/web-resources">
+				<exclude name="/"/>
+			</dir>
+		</link>
+		<link target="/">
 			<dir name="/home/roger/projetos-git/cursos-algaworks/curso-spring-js-bootstrap/brewer/src/main/webapp">
 			</dir>
 		</link>

@@ -1,26 +1,133 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorator="'layout/LayoutPadrao'">
+
 <head>
-<meta charset="utf-8">
-<title>Cadastro de cerveja</title>
+	<title>Cadastro de cerveja</title>
 </head>
+
 <body>
-	<h1>Olá! Thymeleaf configurado</h1>
-	<form method="post">
-		<span th:text="${mensagem}"></span>
-		<br>
-		<label>SKU:</label>
-		<input type="text" name="sku"/>
-		<br>
-		<br>
-		<label>Nome:</label>
-		<input type="text" name="nome"/>
-		<br>
-		<br>
-		<label>Descricão:</label>
-		<input type="text" name="descricao"/>
-		<button type="submit">Enviar</button>
-	</form>
+	<section layout:fragment="conteudo">
+
+
+		<div class="page-header">
+			<div class="container-fluid">
+				<h1>Cadastro de cerveja</h1>
+			</div>
+		</div>
+
+		<div class="container-fluid">
+
+			<form method="post" th:object="${cerveja}"
+				class="form-vertical  js-form-loading">
+
+				<div class="row">
+					<div class="form-group col-sm-2">
+						<label for="sku">SKU</label> <input id="sku" type="text"
+							class="form-control" />
+					</div>
+
+					<div class="form-group col-sm-10">
+						<label for="nome">Nome</label> <input id="nome" type="text"
+							class="form-control" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="descricao">Descrição</label>
+					<textarea id="descricao" rows="3" class="form-control"></textarea>
+				</div>
+
+				<div class="row">
+
+
+					<div class="col-sm-3  form-group">
+						<label for="estilo">Estilo</label>
+						<div class="bw-field-action">
+							<select id="estilo" class="form-control">
+								<option value="">Selecione o estilo</option>
+								<option value="1">Pale lager</option>
+							</select>
+
+							<div class="bw-field-action__icon">
+								<a href="#" data-toggle="modal"
+									data-target="#modalCadastroRapidoEstilo"> <i
+									class="glyphicon  glyphicon-plus-sign  bw-glyphicon-large"></i>
+								</a>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="col-sm-3 form-group">
+						<label for="" id="sabor">Sabor</label> <select name="" id="sabor"
+							class="form-control">
+							<option value="">Selecione um sabor</option>
+						</select>
+					</div>
+
+					<div class="col-sm-3 form-group">
+						<label for="teorAlcoolico">Teor alcoólico</label>
+						<div class="input-group">
+							<input type="text" id="teorAlcoolico"
+								class="form-control js-decimal" />
+							<div class="input-group-addon">%</div>
+						</div>
+					</div>
+
+					<div class="col-lg-3 col-sm-6">
+						<div class="form-group">
+							<label for="origem">Origem</label>
+							<div>
+								<div>
+									<div class="radio radio-inline">
+										<input id="origem-nacional" type="radio" name="origem" /> <label
+											for="origem-nacional">Nacional</label>
+									</div>
+	
+									<div class="radio radio-inline">
+										<input id="origem-internacional" type="radio" name="origem" />
+										<label for="origem-internacional">Internacional</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-sm-3 form-group">
+						<label for="preco">Preço</label>
+						<div class="input-group">
+							<div class="input-group-addon">R$</div>
+							<input type="text" id="preco" class="form-control js-decimal" />
+						</div>
+					</div>
+
+					<div class="col-sm-3 form-group">
+						<label for="comissao">Comissão</label>
+						<div class="input-group">
+							<input type="text" id="comissao" class="form-control js-decimal" />
+							<div class="input-group-addon">%</div>
+						</div>
+					</div>
+
+					<div class="col-sm-3 form-group">
+						<label for="estoque">Estoque</label> <input type="text"
+							id="estoque" class="form-control js-plain" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<button class="btn  btn-primary" type="submit">Salvar</button>
+				</div>
+
+			</form>
+		</div>
+		<div th:replace="/estilo/CadastroRapidoEstilo"></div>
+	</section>
+
 </body>
 </html>
