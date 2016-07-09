@@ -39,6 +39,9 @@
 
 		<!-- Hibernate -->
 		<hibernate.version>5.0.7.Final</hibernate.version>
+		
+		<!-- Spring Data JPA -->
+		<spring-data-jpa.version>1.10.2.RELEASE</spring-data-jpa.version>
 	</properties>
 
 	<build>
@@ -151,16 +154,13 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
 			<version>${hibernate.version}</version>
-			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-java8</artifactId>
 			<version>${hibernate.version}</version>
-			<scope>provided</scope>
 		</dependency>
-		
 		
 		<!-- MySQL Driver -->
 		<dependency>
@@ -168,6 +168,14 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-connector-java.version}</version>
 		</dependency>
+	
+		<!-- Spring Data JPA -->
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-jpa</artifactId>
+		    <version>${spring-data-jpa.version}</version>
+		</dependency>
+		
 	</dependencies>
 
 	<repositories>
