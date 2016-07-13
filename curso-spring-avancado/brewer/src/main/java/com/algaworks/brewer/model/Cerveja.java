@@ -13,13 +13,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.algaworks.brewer.validation.SKU;
+
 @Entity
 @Table(name = "cerveja")
-public class Cerveja implements Serializable{
+public class Cerveja implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -27,28 +33,48 @@ public class Cerveja implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 
+	@SKU
 	@NotBlank(message = "SKU é obrigatório")
 	private String sku;
 
-	@NotBlank(message = "NOME é obrigatório")
+	@NotBlank(message = "Nome é obrigatório")
 	private String nome;
 
-	@NotBlank(message = "DESCRIÇÃO é obrigatória")
-	@Size(min = 1, max = 50, message = "O tamanho de DESCRIÇÃO deve estar entre 1 e 50")
+	@NotBlank(message = "Descrição é obrigatório")
+	@Size(max = 50, message = "O tamanho de descrição deve estar entre 1 e 50")
 	private String descricao;
 
+	@NotNull(message = "Valor é obrigatório")
+	@DecimalMin(value = "0.01", message = "O valor da cerveja deve ser maoir que R$ 0,01")
+	@DecimalMax(value = "9999999.99", message = "O valor da cerveja deve ser menor que R$ 9.999.999,00")
 	private BigDecimal valor;
 
+	@NotNull(message = "Teor Alcoolico é obrigatório")
+	@DecimalMax(value = "100.00", message = "O valor do teor alcoolico dever ser menor/igual a 100%")
 	@Column(name = "teor_alcoolico")
 	private BigDecimal teorAlcoolico;
 
+	@NotNull(message = "Comissão é obrigatório")
+	@DecimalMax(value = "100.00", message = "O valor da comissão dever ser menor/igual a 100%")
 	private BigDecimal comissao;
 
+	@NotNull(message="Quantidade em estoque é obrigatório")
+	@Max(value = 9999, message = "A quantidade em estoque deve ser menor que 9.999")
 	@Column(name = "quantidade_estoque")
 	private Integer quantidadeEstoque;
 
+	@NotNull(message = "Origem é obrigatória")
 	@Enumerated(EnumType.STRING)
 	private Origem origem;
+	
+	@NotNull(message = "Sabor é obrigatório")
+	@Enumerated(EnumType.STRING)
+	private Sabor sabor;
+	
+	@NotNull(message = "Estilo é obrigatório")
+	@ManyToOne
+	@JoinColumn(name = "codigo_estilo")
+	private Estilo estilo;
 
 	@Override
 	public int hashCode() {
@@ -75,12 +101,6 @@ public class Cerveja implements Serializable{
 		return true;
 	}
 
-	@Enumerated(EnumType.STRING)
-	private Sabor sabor;
-
-	@ManyToOne
-	@JoinColumn(name = "codigo_estilo")
-	private Estilo estilo;
 
 	public String getSku() {
 		return sku;

@@ -9,7 +9,8 @@
 	
 	<Loggers>
 		<Logger name="com.algaworks.brewer.controller" level="error"/>
-		<Logger name="org.hibernate.SQL" level="debug"/>
+		<Logger name="org.hibernate" level="debug"/>
+		<Logger name="nz.net.ultraq.thymeleaf.decorators" level="info"/>
 		<Root level="error">
 			<AppenderRef ref="Console" />
 		</Root>

@@ -7,24 +7,29 @@
 		<div class="aw-layout-sidebar__content">
 			<nav class="aw-menu  js-menu">
 				<ul class="aw-menu__list">
-					<li class="aw-menu__item"><a href="dashboard.html"><i
-							class="fa  fa-fw  fa-home"></i><span>Dashboard</span></a></li>
+					<li class="aw-menu__item">
+						<a th:href="@{/}">
+							<i class="fa  fa-fw  fa-home"></i>
+							<span>Dashboard</span>
+						</a>
+					</li>
 
-					<li class="aw-menu__item  is-active"><a href="#"> <i
+					<li class="aw-menu__item"><a href="#"> <i
 							class="fa  fa-fw  fa-file-text"></i><span>Cadastros</span> <i
 							class="aw-menu__navigation-icon  fa"></i>
 					</a>
 
 						<ul class="aw-menu__list  aw-menu__list--sublist">
-							<li class="aw-menu__item  aw-menu__item--link"><a
-								href="cadastro-produto.html">Cadastro de produto</a></li>
-							<li class="aw-menu__item  aw-menu__item--link  is-active"><a
-								href="pesquisa-produtos.html">Pesquisa de produtos</a></li>
-							<li class="aw-menu__item  aw-menu__item--link"><a
-								href="tabela-sem-dados.html">Tabela sem dados</a></li>
-						</ul></li>
+							<li class="aw-menu__item  aw-menu__item--link">
+								<a th:href="@{/cervejas/novo}">Cadastro de cerveja</a></li>
+							<li class="aw-menu__item  aw-menu__item--link  is-active">
+								<a th:href="@{/estilos/novo}">Cadastro de estilos</a></li>
+<!-- 							<li class="aw-menu__item  aw-menu__item--link"><a -->
+<!-- 								href="tabela-sem-dados.html">Tabela sem dados</a></li> -->
+						</ul>
+					</li>
 
-					<li class="aw-menu__item  is-expanded"><a href="#"> <i
+					<li class="aw-menu__item"><a href="#"> <i
 							class="fa  fa-fw  fa-file-text"></i><span>Páginas comuns</span> <i
 							class="aw-menu__navigation-icon  fa"></i>
 					</a>

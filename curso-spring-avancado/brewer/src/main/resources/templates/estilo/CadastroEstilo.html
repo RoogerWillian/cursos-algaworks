@@ -6,6 +6,15 @@
 
 <head>
 <title>Cadastro de estilo</title>
+<style>
+	.icon {
+			margin-right: 10px;
+		}
+		
+		.message {
+			margin-bottom: 5px;
+		}	
+</style>
 </head>
 <body>
 	<section layout:fragment="conteudo">
@@ -17,11 +26,14 @@
 		</div>
 
 		<div class="container-fluid">
-			<form action="form-vertical" method="post">
+			<form class="form-vertical" method="post" th:object="${estilo}">
+			
+				<th:block th:include="fragments/MensagensErroValidacao"></th:block>
+				<th:block th:include="fragments/MensagemSucesso"></th:block>
 				<div class="row">
-					<div class="form-group col-sm-6">
-						<label for="nome">Nome</label> 
-						<input type="text" id="nome" class="form-control" />
+					<div class="form-group col-sm-6" th:classappend="${#fields.hasErrors('nome')} ? 'has-error'">
+						<label for="nome" class="control-label">Nome</label> 
+						<input autofocus="autofocus" type="text" class="form-control" th:field="*{nome}"/>
 					</div>
 				</div>
 				<button class="btn btn-primary">Salvar</button>

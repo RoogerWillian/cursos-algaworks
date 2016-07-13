@@ -19,11 +19,10 @@ import com.algaworks.brewer.model.Cerveja;
 import com.algaworks.brewer.repository.Cervejas;
 
 @Configuration
-@EnableJpaRepositories(basePackageClasses = { Cervejas.class })
+@EnableJpaRepositories(basePackageClasses = { Cervejas.class }, enableDefaultTransactions = false)
 @EnableTransactionManagement
 public class JPAConfig {
 
-	
 	@Bean
 	public JpaVendorAdapter jpaVendorAdapter() {
 		HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
@@ -33,7 +32,7 @@ public class JPAConfig {
 		adapter.setDatabasePlatform("org.hibernate.dialect.MySQLDialect");
 		return adapter;
 	}
-	
+
 	@Bean
 	public EntityManagerFactory entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
@@ -43,16 +42,14 @@ public class JPAConfig {
 		factory.afterPropertiesSet();
 		return factory.getObject();
 	}
-	
+
 	@Bean
 	public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
 		JpaTransactionManager transactionManager = new JpaTransactionManager();
 		transactionManager.setEntityManagerFactory(entityManagerFactory);
-	
+
 		return transactionManager;
 	}
-	
-	
 
 	private DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
