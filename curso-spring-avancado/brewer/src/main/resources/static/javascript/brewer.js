@@ -1,21 +1,21 @@
-$(function(){
-	var decimal = $('.js-decimal');
-	decimal.maskMoney({decimal : ',', thousands : '.'});
-	
-	var plain = $('.js-plain');
-	plain.maskMoney({precision : 0, thousands : '.'});
+var Brewer = Brewer || {};
 
-	$('.js-select2').select2({
-		placeholder: $(this).data('placeholder'),
-		allowClear: false,
-		noResults: function(term) {
-            return 'Opção não encontrada!';
-       }
-	});
+Brewer.MaskMoney = (function (){
 	
-	$('.js-error-detail').on('click', function(e){
-		e.preventDefault();
-		$('#msgErrors').hide();
-		$('#msgDetailedErrors').show(1000);
-	});
+	function MaskMoney(){
+		this.decimal = $('.js-decimal');
+		this.plain = $('.js-plain');		
+	}
+	
+	MaskMoney.prototype.enable = function(){
+		this.decimal.maskMoney({decimal : ',', thousands : '.'});
+		this.plain.maskMoney({precision : 0, thousands : '.'});		
+	}
+	
+	return MaskMoney;
+}());
+
+$(function(){
+	var maskMoney = new Brewer.MaskMoney();
+	maskMoney.enable();
 });

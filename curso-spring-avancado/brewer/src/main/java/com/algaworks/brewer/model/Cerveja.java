@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
@@ -58,7 +60,7 @@ public class Cerveja implements Serializable {
 	@DecimalMax(value = "100.00", message = "O valor da comissão dever ser menor/igual a 100%")
 	private BigDecimal comissao;
 
-	@NotNull(message="Quantidade em estoque é obrigatório")
+	@NotNull(message = "Quantidade em estoque é obrigatório")
 	@Max(value = 9999, message = "A quantidade em estoque deve ser menor que 9.999")
 	@Column(name = "quantidade_estoque")
 	private Integer quantidadeEstoque;
@@ -66,15 +68,21 @@ public class Cerveja implements Serializable {
 	@NotNull(message = "Origem é obrigatória")
 	@Enumerated(EnumType.STRING)
 	private Origem origem;
-	
+
 	@NotNull(message = "Sabor é obrigatório")
 	@Enumerated(EnumType.STRING)
 	private Sabor sabor;
-	
+
 	@NotNull(message = "Estilo é obrigatório")
 	@ManyToOne
 	@JoinColumn(name = "codigo_estilo")
 	private Estilo estilo;
+
+	@PrePersist
+	@PreUpdate
+	public void prePersisteUpdate() {
+		sku = sku.toUpperCase();
+	}
 
 	@Override
 	public int hashCode() {
@@ -100,7 +108,6 @@ public class Cerveja implements Serializable {
 			return false;
 		return true;
 	}
-
 
 	public String getSku() {
 		return sku;
