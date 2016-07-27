@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:brewer="http://brewer.algaworks.com"
+	layout:decorator="'layout/LayoutPadrao'">
+<head>
+
+
+<style>
+.icon {
+	margin-right: 10px;
+}
+
+.message {
+	margin-bottom: 5px;
+}
+
+.js-select2 {
+	line-height: 1.5
+}
+</style>
+<title>Pesquisa de estilos</title>
+</head>
+
+<body>
+	<section layout:fragment="conteudo">
+		<form method="get" th:object="${estiloFilter}">
+			<div class="page-header">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-sm-8">
+							<h1>Pesquisa de estilos</h1>
+						</div>
+
+						<div class="col-sm-4">
+							<div class="aw-page-header-controls">
+								<a class="btn  btn-default" th:href="@{/estilos/novo}"> <i
+									class="glyphicon  glyphicon-plus-sign"></i> <span
+									class="hidden-xs  hidden-sm">Novo estilo</span>
+								</a>
+
+								<div class="bw-divider-vertical"></div>
+								<button class="btn btn-primary hidden-xs  hidden-sm">
+									<i class="glyphicon  glyphicon-search"></i> <span
+										class="hidden-xs  hidden-sm">Pesquisar</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- ./page-header -->
+			
+			<div class="container-fluid">
+				<div class="row">
+					<div class="form-group col-sm-12">
+						<label for="nome" class="control-label">Nome</label>
+						<input autofocus="autofocus" type="text" id="nome" class="form-control" th:field="*{nome}"/>
+					</div>
+				</div>
+				
+				
+				<div class="table-responsive  bw-tabela-simples">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th class="table-estilos-col-codigo">Código</th>
+								<th>
+									<brewer:order pagina="${pagina}" propriedade="nome" texto="Nome"/>
+								</th>
+								<th class="table-col-codigo"></th>
+							</tr>
+						</thead>
+						
+						<tbody>
+							<tr th:each="estilo : ${pagina.conteudo}">
+								<td th:text="${estilo.codigo}"></td>
+								<td th:text="${estilo.nome}"></td>
+								<td class="col-sm-1 text-left">
+									<a class="btn btn-link btn-xs" title="Editar">
+										<i class="glyphicon glyphicon-pencil"></i>
+									</a>
+									
+									<a class="btn btn-link btn-xs" title="Remover">
+										<i class="glyphicon glyphicon-remove"></i>
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				
+				<div class="col-sm 12 text-center">
+					<div class="pagination pagination-sm">
+						<nav>
+							<ul class="pagination  pagination-sm" th:with="paginaAtual=${pagina.atual}">
+								<li th:class="${pagina.primeira} ? disabled">
+									<a th:href="${pagina.urlParaPagina(paginaAtual - 1)}" th:remove="${pagina.primeira} ? tag"><span>&laquo;</span></a>
+								</li>
+								<th:block th:each="p : ${#numbers.sequence(1, pagina.total)}" th:with="numeroPagina=${p - 1}">
+									<li th:class="${paginaAtual == numeroPagina} ? active">
+										<a th:href="${pagina.urlParaPagina(numeroPagina)}">[[${p}]]</a>
+									</li>
+								</th:block>
+								
+								<li th:class="${pagina.ultima} ? disabled">
+									<a th:href="${pagina.urlParaPagina(paginaAtual + 1)}" th:remove="${pagina.ultima} ? tag"><span>&raquo;</span></a>
+								</li>
+							</ul>
+						</nav>
+					</div>
+				</div>
+				
+			</div>
+		</form>
+		
+	</section>
+</body>
+</html>

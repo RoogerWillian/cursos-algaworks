@@ -7,38 +7,58 @@
 <head>
 <title>Cadastro de estilo</title>
 <style>
-	.icon {
-			margin-right: 10px;
-		}
-		
-		.message {
-			margin-bottom: 5px;
-		}	
+.icon {
+	margin-right: 10px;
+}
+
+.message {
+	margin-bottom: 5px;
+}
 </style>
 </head>
 <body>
 	<section layout:fragment="conteudo">
+		<form class="form-vertical" method="post" th:object="${estilo}">
 
-		<div class="page-header">
-			<div class="container-fluid">
-				<h1>Cadastro de estilo</h1>
+			<div class="page-header">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-sm-8">
+							<h1>Cadastro de estilo</h1>
+						</div>
+
+						<div class="col-sm-4">
+							<div class="aw-page-header-controls">
+								<a class="btn  btn-default" th:href="@{/estilos}"> <i
+									class="glyphicon  glyphicon-search"></i> <span
+									class="hidden-xs  hidden-sm">Pesquisa</span>
+								</a>
+								<div class="bw-divider-vertical"></div>
+								<button class="btn  btn-primary hidden-sm hidden-xs"
+									type="submit">
+									<i class="glyphicon  glyphicon-ok icon"></i>Salvar
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
-		</div>
 
-		<div class="container-fluid">
-			<form class="form-vertical" method="post" th:object="${estilo}">
-			
+			<div class="container-fluid">
+
 				<th:block th:include="fragments/MensagensErroValidacao"></th:block>
 				<th:block th:include="fragments/MensagemSucesso"></th:block>
 				<div class="row">
-					<div class="form-group col-sm-6" th:classappend="${#fields.hasErrors('nome')} ? 'has-error'">
-						<label for="nome" class="control-label">Nome</label> 
-						<input autofocus="autofocus" type="text" class="form-control" th:field="*{nome}"/>
+					<div class="form-group col-sm-12"
+						th:classappend="${#fields.hasErrors('nome')} ? 'has-error'">
+						<label for="nome" class="control-label">Nome</label> <input
+							autofocus="autofocus" type="text" class="form-control"
+							th:field="*{nome}" />
 					</div>
 				</div>
-				<button class="btn btn-primary">Salvar</button>
-			</form>
-		</div>
+				<button class="btn btn-primary hidden-lg col-xs-12">Salvar</button>
+			</div>
+		</form>
 	</section>
 </body>
 </html>

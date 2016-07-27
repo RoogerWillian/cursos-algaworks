@@ -101,8 +101,12 @@
 						<thead>
 							<tr>
 								<th class="table-cervejas-col-foto"></th>
-								<th class="table-cervejas-col-sku">SKU</th>
-								<th class="table-cervejas-col-nome">Nome</th>
+								<th class="table-cervejas-col-sku">
+									<brewer:order pagina="${pagina}" propriedade="sku" texto="SKU"/>	
+								</th>
+								<th class="table-cervejas-col-nome">
+									<brewer:order pagina="${pagina}" propriedade="nome" texto="Nome"/>
+								</th>
 								<th>Sabor</th>
 								<th class="table-cervejas-col-estilo">Estilo</th>
 								<th class="table-cervejas-col-origem">Origem</th>
