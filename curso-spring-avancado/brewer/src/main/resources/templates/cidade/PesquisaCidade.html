@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:brewer="http://brewer.algaworks.com"
+	layout:decorate="~{layout/LayoutPadrao}">
+<head>
+<title>Pesquisa de cidades</title>
+</head>
+<body>
+	<section layout:fragment="conteudo">
+		<form th:action="@{cidades}" th:object="${cidadesFilter}">
+			<div class="page-header">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-sm-8">
+							<h1>Pesquisa de cidades</h1>
+						</div>
+						
+						<div class="col-sm-4">
+							<div class="aw-page-header-controls">
+								<a class="btn  btn-default" th:href="@{/cidades/nova}">
+									<i class="glyphicon  glyphicon-plus-sign"></i>
+									<span class="hidden-xs  hidden-sm">Nova cidade</span>
+								</a>
+								
+								<div class="bw-divider-vertical"></div>
+								<button type="submit" class="btn btn-primary hidden-xs hidden-sm">
+									<i class="glyphicon  glyphicon-search"></i>
+									<span class="hidden-xs">Pesquisar</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> <!-- ./page-header -->
+			
+			<div class="container-fluid">
+				
+				<div class="row">
+					<div class="col-sm-4 form-group">
+						<label for="estado" class="control-label">Estado</label>
+						<select id="estado" class="form-control" th:field="*{estado}">
+							<option value="">Todos</option>
+							<option th:each="estado : ${estados}" th:text="${estado.nome}"
+								th:value="${estado.codigo}">São Paulo</option>
+						</select>
+					</div>
+					
+					<div class="col-sm-8 form-group">
+						<label for="nome" class="control-label">Nome</label>
+						<input type="text" class="form-control" id="nome" th:field="*{nome}"/>
+					</div>
+				</div>
+					
+				<div class="table-responsive bw-tabela-simples">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th class="table-col-cidades-nome">
+									<brewer:order pagina="${pagina}" propriedade="nome" texto="Nome" />
+								</th>
+								<th class="table-cidades-col-estado text-center">
+									<brewer:order pagina="${pagina}" propriedade="estado" texto="Estado" />
+								</th>
+								<th class="table-col-acao"></th>
+							</tr>
+						</thead>
+						
+						<tbody>
+							<tr th:each="cidade : ${pagina.conteudo}">
+								<td th:text="${cidade.nome}">Bauru</td>
+								<td th:text="|${cidade.estado.nome}/${cidade.estado.sigla}|"></td>
+								<td class="table-cervejas-col-acoes">
+									<a class="btn btn-link btn-xs" title="Editar">
+										<i class="glyphicon glyphicon-pencil"></i>
+									</a>
+									
+									<a class="btn btn-link btn-xs" title="Remover">
+										<i class="glyphicon glyphicon-remove"></i>
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					
+				</div>
+				
+				<brewer:pagination page="${pagina}" />
+					
+				<button class="btn btn-primary col-xs-12 hidden-lg hidden-sm" type="submit">Pesquisar</button>
+			</div>
+		</form>
+	</section>
+</body>
+</html>

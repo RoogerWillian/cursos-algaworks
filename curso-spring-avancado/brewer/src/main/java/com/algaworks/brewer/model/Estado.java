@@ -2,45 +2,37 @@ package com.algaworks.brewer.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotBlank;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "cidade")
-public class Cidade implements Serializable {
+@Table(name = "estado")
+public class Estado implements Serializable {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long codigo;
-	
-	@NotBlank(message="O nome é obrigatório")
+
+	@Column(length = 50)
 	private String nome;
 	
-	@NotNull(message="O estado é obrigatório")
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "codigo_estado")
-	@JsonIgnore
-	private Estado estado;
+	@Column(length = 2)
+	private String sigla;
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
-		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		return result;
 	}
 
@@ -52,16 +44,11 @@ public class Cidade implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cidade other = (Cidade) obj;
+		Estado other = (Estado) obj;
 		if (codigo == null) {
 			if (other.codigo != null)
 				return false;
 		} else if (!codigo.equals(other.codigo))
-			return false;
-		if (nome == null) {
-			if (other.nome != null)
-				return false;
-		} else if (!nome.equals(other.nome))
 			return false;
 		return true;
 	}
@@ -82,12 +69,14 @@ public class Cidade implements Serializable {
 		this.nome = nome;
 	}
 
-	public Estado getEstado() {
-		return estado;
+	public String getSigla() {
+		return sigla;
 	}
 
-	public void setEstado(Estado estado) {
-		this.estado = estado;
+	public void setSigla(String sigla) {
+		this.sigla = sigla;
 	}
-
+	
+	
+	
 }
