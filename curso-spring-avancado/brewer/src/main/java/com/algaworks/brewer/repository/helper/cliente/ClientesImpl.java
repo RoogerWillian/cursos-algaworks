@@ -28,7 +28,8 @@ public class ClientesImpl implements ClientesQueries {
 
 	@Autowired
 	private PaginacaoUtil paginacaoUtil;
-
+	
+	
 	@SuppressWarnings("unchecked")
 	@Transactional
 	@Override

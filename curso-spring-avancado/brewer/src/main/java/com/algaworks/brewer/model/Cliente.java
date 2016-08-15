@@ -122,7 +122,7 @@ public class Cliente implements Serializable {
 	}
 
 	public String getCpfOuCnpj() {
-		return tipo.formatar(cpfOuCnpj);
+		return this.cpfOuCnpj;
 	}
 
 	public void setCpfOuCnpj(String cpfOuCnpj) {

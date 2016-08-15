@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.algaworks.brewer.controller.exception.CervejaSkuExistenteException;
 import com.algaworks.brewer.controller.page.PageWrapper;
 import com.algaworks.brewer.model.Cerveja;
 import com.algaworks.brewer.model.Origem;
@@ -53,7 +54,12 @@ public class CervejasController {
 			return novo(cerveja);
 		}
 
-		cadastroCervejaService.salvar(cerveja);
+		try {
+			cadastroCervejaService.salvar(cerveja);
+		} catch (CervejaSkuExistenteException e) {
+			result.rejectValue("sku", e.getMessage(), e.getMessage());
+			return novo(cerveja);
+		}
 		attributes.addFlashAttribute("mensagem", "Cerveja salva com sucesso!");
 		return new ModelAndView("redirect:/cervejas/novo");
 	}
