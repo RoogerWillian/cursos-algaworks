@@ -3,13 +3,14 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:brewer="http://brewer.algaworks.com"
-	layout:decorate="~{layout/LayoutPadrao}">
+	layout:decorate="~{layout/LayoutPadrao}"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
 <title>Pesquisa de cidades</title>
 </head>
 <body>
 	<section layout:fragment="conteudo">
-		<form th:action="@{cidades}" th:object="${cidadesFilter}">
+		<form th:action="@{/cidades}" th:object="${cidadesFilter}">
 			<div class="page-header">
 				<div class="container-fluid">
 					<div class="row">
@@ -19,10 +20,12 @@
 						
 						<div class="col-sm-4">
 							<div class="aw-page-header-controls">
-								<a class="btn  btn-default" th:href="@{/cidades/nova}">
-									<i class="glyphicon  glyphicon-plus-sign"></i>
-									<span class="hidden-xs  hidden-sm">Nova cidade</span>
-								</a>
+								<div sec:authorize="hasRole('ROLE_CADASTRAR_CIDADE')">
+									<a class="btn  btn-default" th:href="@{/cidades/nova}">
+										<i class="glyphicon  glyphicon-plus-sign"></i>
+										<span class="hidden-xs  hidden-sm">Nova cidade</span>
+									</a>
+								</div>
 								
 								<div class="bw-divider-vertical"></div>
 								<button type="submit" class="btn btn-primary hidden-xs hidden-sm">
@@ -60,18 +63,18 @@
 								<th class="table-col-cidades-nome">
 									<brewer:order pagina="${pagina}" propriedade="nome" texto="Nome" />
 								</th>
-								<th class="table-cidades-col-estado text-center">
+								<th class="table-cidades-col-estado">
 									<brewer:order pagina="${pagina}" propriedade="estado" texto="Estado" />
 								</th>
-								<th class="table-col-acao"></th>
+								<th class="table-col-acao" sec:authorize="hasRole('ROLE_CADASTRAR_CIDADE')"></th>
 							</tr>
 						</thead>
 						
 						<tbody>
 							<tr th:each="cidade : ${pagina.conteudo}">
 								<td th:text="${cidade.nome}">Bauru</td>
-								<td th:text="|${cidade.estado.nome}/${cidade.estado.sigla}|"></td>
-								<td class="table-cervejas-col-acoes">
+								<td class="text-right" th:text="|${cidade.estado.nome}/${cidade.estado.sigla}|"></td>
+								<td class="table-cervejas-col-acoes" sec:authorize="hasRole('ROLE_CADASTRAR_CIDADE')">
 									<a class="btn btn-link btn-xs" title="Editar">
 										<i class="glyphicon glyphicon-pencil"></i>
 									</a>

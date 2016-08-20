@@ -37,7 +37,8 @@ public class CervejasController {
 
 	@Autowired
 	private CadastroCervejaService cadastroCervejaService;
-
+	
+	
 	@RequestMapping("/novo")
 	public ModelAndView novo(Cerveja cerveja) {
 		ModelAndView mv = new ModelAndView("cerveja/CadastroCerveja");

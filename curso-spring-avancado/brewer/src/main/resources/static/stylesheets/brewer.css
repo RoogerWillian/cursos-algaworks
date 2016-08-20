@@ -1,3 +1,4 @@
+@import 'https://fonts.googleapis.com/css?family=Open+Sans';
 @CHARSET "UTF-8";
 
 /*
@@ -152,11 +153,15 @@
 
 .table-cidades-col-estado {
 	width: 140px;
-	text-align: center;
+	text-align: right;
 }
 
 .table-cervejas-col-acoes {
 	width: 80px;
+}
+
+.table-usuarios-col-nome {
+	width: 140px;
 }
 
 /*
@@ -168,4 +173,10 @@
 .checkbox input[type="checkbox"]:checked + input + label::after {
     font-family: 'FontAwesome';
     content: "\f00c"; 
+}
+
+.user-logged {
+	font-family: 'Open Sans',sans-serif;
+	font-size: 10pt;
+	font-weight: bold;
 }
