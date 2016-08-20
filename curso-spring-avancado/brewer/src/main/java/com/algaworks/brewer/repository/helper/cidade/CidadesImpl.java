@@ -1,4 +1,4 @@
-package com.algaworks.brewer.repository.filter.cidade;
+package com.algaworks.brewer.repository.helper.cidade;
 
 import static org.springframework.util.StringUtils.isEmpty;
 
@@ -17,7 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.algaworks.brewer.model.Cidade;
-import com.algaworks.brewer.repository.helper.CidadesQueries;
+import com.algaworks.brewer.repository.filter.cidade.CidadesFilter;
 import com.algaworks.brewer.repository.paginacao.PaginacaoUtil;
 
 public class CidadesImpl implements CidadesQueries {

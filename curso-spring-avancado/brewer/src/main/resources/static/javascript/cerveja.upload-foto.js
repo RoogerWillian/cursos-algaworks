@@ -16,7 +16,8 @@ Brewer.UploadFoto = (function() {
 			filelimit : 1,
 			allow : '*.(jpg|jpeg|png)',
 			action : this.containerFoto.data('url-foto'),
-			complete : onUploadComplete.bind(this)
+			complete : onUploadComplete.bind(this),
+			beforeSend : adicionarCsrfToken
 		}
 		UIkit.uploadSelect($('#upload-select'), settings);
 		UIkit.uploadDrop(this.uploadDrop, settings);
@@ -28,7 +29,13 @@ Brewer.UploadFoto = (function() {
 			});
 		}
 	}
-
+	
+	function adicionarCsrfToken(xhr){
+		var token = $('input[name=_csrf]').val();
+		var header = $('input[name=_csrf_header]').val();
+		xhr.setRequestHeader(header, token);
+	}
+	
 	function onUploadComplete(resposta) {
 		this.inputNomeFoto.val(resposta.nome);
 		this.inputContentType.val(resposta.contentType);

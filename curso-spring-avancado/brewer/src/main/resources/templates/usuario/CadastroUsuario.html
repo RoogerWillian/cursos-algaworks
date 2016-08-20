@@ -12,7 +12,8 @@
 </head>
 <body>
 	<section layout:fragment="conteudo">
-		<form method="post" th:object="${usuario}" class="form-vertical">
+		<form method="post" th:object="${usuario}" class="form-vertical"
+			th:action="@{/usuarios/novo}">
 			<div class="page-header">
 				<div class="container-fluid">
 					<div class="row">

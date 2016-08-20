@@ -18,7 +18,8 @@
 </head>
 <body>
 	<section layout:fragment="conteudo">
-		<form class="form-vertical" method="post" th:object="${estilo}">
+		<form class="form-vertical" method="post" th:object="${estilo}"
+			th:action="@{/estilos/novo}">
 
 			<div class="page-header">
 				<div class="container-fluid">
