@@ -13,7 +13,7 @@ public class PaginacaoUtil {
 		int paginalAtual = pageable.getPageNumber();
 		int totalRegistrosPorPagina = pageable.getPageSize();
 		int primeiraPagina = paginalAtual * totalRegistrosPorPagina;
-
+		
 		criteria.setFirstResult(primeiraPagina);
 		criteria.setMaxResults(totalRegistrosPorPagina);
 

@@ -15,29 +15,34 @@ import com.algaworks.brewer.service.exception.SenhaObrigatoriaUsuarioException;
 
 @Service
 public class CadastroUsuarioService {
-	
+
 	@Autowired
 	private Usuarios usuarios;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Transactional
-	public void salvar(Usuario usuario){
+	public void salvar(Usuario usuario) {
 		Optional<Usuario> usuarioExiste = usuarios.findByEmail(usuario.getEmail());
-		if(usuarioExiste.isPresent()){
+		if (usuarioExiste.isPresent()) {
 			throw new EmailUsuarioJaCadastradoException("E-mail já cadastrado, tente novamente");
 		}
-		
-		if(usuario.isNovo() && StringUtils.isEmpty(usuario.getSenha())){
+
+		if (usuario.isNovo() && StringUtils.isEmpty(usuario.getSenha())) {
 			throw new SenhaObrigatoriaUsuarioException("Senha é obrigatória para novo usuário");
 		}
-		
-		if(usuario.isNovo()){
+
+		if (usuario.isNovo()) {
 			usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
 			usuario.setConfirmacaoSenha(usuario.getSenha());
 		}
-		
+
 		usuarios.save(usuario);
+	}
+	
+	@Transactional
+	public void atualizarStatus(Long[] codigos, StatusUsuario statusUsuario) {
+		statusUsuario.executar(codigos, usuarios);
 	}
 }

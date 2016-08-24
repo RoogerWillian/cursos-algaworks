@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -42,6 +43,11 @@ public class Usuario implements Serializable {
 
 	private String senha;
 
+	@PreUpdate
+	public void preUpdate() {
+		this.confirmacaoSenha = senha;
+	}
+
 	@Transient
 	private String confirmacaoSenha;
 
@@ -55,11 +61,11 @@ public class Usuario implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "usuario_grupo", joinColumns = @JoinColumn(name = "codigo_usuario"), inverseJoinColumns = @JoinColumn(name = "codigo_grupo"))
 	private List<Grupo> grupos;
-	
-	public boolean isNovo(){
+
+	public boolean isNovo() {
 		return codigo == null;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -43,6 +43,12 @@
     vertical-align: middle;
 }
 
+/* Coluna seleção de usuarios */
+.table-col-usuario-selecao {
+	width: 30px;
+	text-align: center;
+}
+
 /*
 ########################
  COMPONENTES

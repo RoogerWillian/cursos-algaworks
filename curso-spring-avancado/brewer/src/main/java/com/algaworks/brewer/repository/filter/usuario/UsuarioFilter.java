@@ -1,9 +1,24 @@
 package com.algaworks.brewer.repository.filter.usuario;
 
+import java.util.List;
+
+import com.algaworks.brewer.model.Grupo;
+
 public class UsuarioFilter {
 	
 	private String nome;
+
 	private String email;
+	
+	private List<Grupo> grupos;
+	
+	public List<Grupo> getGrupos() {
+		return grupos;
+	}
+	
+	public void setGrupos(List<Grupo> grupos) {
+		this.grupos = grupos;
+	}
 	
 	public String getEmail() {
 		return email;
