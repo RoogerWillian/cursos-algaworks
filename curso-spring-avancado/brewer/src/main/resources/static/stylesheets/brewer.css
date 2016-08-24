@@ -83,6 +83,22 @@
     margin-bottom: 1px;
 }
 
+/* Tabela Cervejas página de Venda */
+.bw-tabela-cervejas {
+	margin-bottom: 15px;
+}
+
+.bw-tabela-cervejas__vazio {
+	padding: 15px 15px;
+	
+	border: 1px dashed #ddd;
+	
+	text-align: center;
+	font-size: 1.2em;
+	font-weight: 300;
+	color: #555;
+}
+
 .bw-upload-form-file > input[type=file] {
 	position: absolute;
     top: 0;

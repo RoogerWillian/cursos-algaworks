@@ -1,16 +1,23 @@
 package com.algaworks.brewer.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -29,25 +36,25 @@ public class ClientesController {
 
 	private static final String CADASTRO_CLIENTE_VIEW = "/cliente/CadastroCliente";
 	private static final String PESQUISA_CLIENTE_VIEW = "/cliente/PesquisaCliente";
-	
+
 	@Autowired
 	private Estados estados;
 
 	@Autowired
 	private CadastroClienteService cadastroClienteService;
-	
+
 	@Autowired
 	private Clientes clientes;
-	
+
 	@GetMapping
 	public ModelAndView pesquisar(ClienteFilter filter, BindingResult result,
-			@PageableDefault(size = 2) Pageable pageable, HttpServletRequest request){
+			@PageableDefault(size = 6) Pageable pageable, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView(PESQUISA_CLIENTE_VIEW);
 		PageWrapper<Cliente> pagina = new PageWrapper<>(clientes.filtrar(filter, pageable), request);
 		mv.addObject("pagina", pagina);
 		return mv;
 	}
-	
+
 	@GetMapping("/novo")
 	public ModelAndView novo(Cliente cliente) {
 		ModelAndView mv = new ModelAndView(CADASTRO_CLIENTE_VIEW);
@@ -69,5 +76,22 @@ public class ClientesController {
 		}
 		attributes.addFlashAttribute("mensagem", "Cliente salvo com sucesso");
 		return new ModelAndView("redirect:/clientes/novo");
+	}
+
+	@RequestMapping(consumes = { MediaType.APPLICATION_JSON_VALUE })
+	public @ResponseBody List<Cliente> pesquisar(String nome) {
+		validarTamanhoNome(nome);
+		return clientes.findByNomeStartingWithIgnoreCase(nome);
+	}
+
+	private void validarTamanhoNome(String nome) {
+		if(StringUtils.isEmpty(nome) || nome.length() < 3){
+			throw new IllegalArgumentException();
+		}
+	}
+	
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<Void> tratarIllegalArgumentException(IllegalArgumentException e){
+		return ResponseEntity.badRequest().build();
 	}
 }
