@@ -7,6 +7,8 @@
 
 <head>
 <title>Nova venda</title>
+<link rel="stylesheet" th:href="@{/stylesheets/vendors/easy-autocomplete.min.css}" />
+<link rel="stylesheet" th:href="@{/stylesheets/vendors/easy-autocomplete.themes.css}" />
 </head>
 <body>
 <section layout:fragment="conteudo">
@@ -196,5 +198,6 @@
 	});
 	</script>
 	<script th:src="@{/javascript/vendors/handlebars.min.js}"></script>
+	<script th:src="@{/javascript/vendors/jquery.easy-autocomplete.min.js}"></script>
 	<script th:src="@{/javascript/cliente.pesquisa-rapida.js}"></script></th:block>
 </html>

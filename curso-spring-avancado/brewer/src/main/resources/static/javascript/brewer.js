@@ -75,16 +75,16 @@ Brewer.MaskDate = (function(){
 	return MaskDate;
 }());
 
-Brewer.Security = (function(){
+Brewer.Security = (function() {
 	
-	function Security(){
+	function Security() {
 		this.token = $('input[name=_csrf]').val();
 		this.header = $('input[name=_csrf_header]').val();
 	}
 	
-	Security.prototype.enable = function(){
-		$(document).ajaxSend(function(event, xhr, settings){
-			xhr.setRequestHeader(this.header, this.token);
+	Security.prototype.enable = function() {
+		$(document).ajaxSend(function(event, jqxhr, settings) {
+			jqxhr.setRequestHeader(this.header, this.token);
 		}.bind(this));
 	}
 	

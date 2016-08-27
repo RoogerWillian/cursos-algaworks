@@ -36,7 +36,7 @@ public class FotosController {
 	
 	@GetMapping("/{nome:.*}")
 	public byte[] recuperarFoto(@PathVariable String nome) {
-		return fotoStorage.recuperarFoto(nome);
+		return fotoStorage.recuperar(nome);
 	}
 	
 	
