@@ -2,6 +2,8 @@ package com.algaworks.brewer.repository.helper.cerveja;
 
 import static org.springframework.util.StringUtils.isEmpty;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -16,6 +18,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.algaworks.brewer.dto.CervejaDTO;
 import com.algaworks.brewer.model.Cerveja;
 import com.algaworks.brewer.repository.filter.cerveja.CervejaFilter;
 import com.algaworks.brewer.repository.paginacao.PaginacaoUtil;
@@ -24,10 +27,10 @@ public class CervejasImpl implements CervejasQueries {
 
 	@PersistenceContext
 	private EntityManager manager;
-	
+
 	@Autowired
 	private PaginacaoUtil paginacao;
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	@Transactional(readOnly = true)
@@ -35,7 +38,7 @@ public class CervejasImpl implements CervejasQueries {
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(Cerveja.class);
 
 		paginacao.preparar(criteria, pageable);
-		
+
 		adicionarFiltro(filter, criteria);
 		return new PageImpl<>(criteria.list(), pageable, total(filter));
 	}
@@ -75,6 +78,19 @@ public class CervejasImpl implements CervejasQueries {
 
 	private boolean isEstiloPresente(CervejaFilter filter) {
 		return filter.getEstilo() != null && filter.getEstilo().getCodigo() != null;
+	}
+
+	@Override
+	public List<CervejaDTO> porNomeOuSku(String skuOuNome) {
+
+		StringBuilder jpql = new StringBuilder();
+		jpql.append("select new com.algaworks.brewer.dto.CervejaDTO(codigo,nome,sku,origem,valor,foto) ");
+		jpql.append("from Cerveja where lower(sku) like lower(:skuOuNome) or lower(nome) like lower(:skuOuNome)");
+		List<CervejaDTO> cervejasFiltradas = manager.createQuery(jpql.toString(), CervejaDTO.class)
+				.setParameter("skuOuNome", skuOuNome + "%")
+				.getResultList();
+		
+		return cervejasFiltradas;
 	}
 
 }

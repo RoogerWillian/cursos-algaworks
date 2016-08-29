@@ -8,6 +8,7 @@ CREATE TABLE cerveja (
     sku VARCHAR(50) NOT NULL,
     nome VARCHAR(80) NOT NULL,
     descricao TEXT NOT NULL,
+    quantidade_estoque INT NOT NULL,
     valor DECIMAL(10, 2) NOT NULL,
     teor_alcoolico DECIMAL(10, 2) NOT NULL,
     comissao DECIMAL(10, 2) NOT NULL,
