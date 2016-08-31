@@ -8,10 +8,9 @@
 
 <head>
 <title>Nova venda</title>
-<link rel="stylesheet"
-	th:href="@{/stylesheets/vendors/easy-autocomplete.min.css}" />
-<link rel="stylesheet"
-	th:href="@{/stylesheets/vendors/easy-autocomplete.themes.css}" />
+<link rel="stylesheet" th:href="@{/stylesheets/vendors/sweetalert.css}" />
+<link rel="stylesheet" th:href="@{/stylesheets/vendors/easy-autocomplete.min.css}" />
+<link rel="stylesheet" th:href="@{/stylesheets/vendors/easy-autocomplete.themes.css}" />
 </head>
 <body>
 	<section layout:fragment="conteudo">
@@ -212,6 +211,8 @@
 <th:block layout:fragment="javascript-extra">
 	<script>
 		$(function() {
+			$('.js-sku-nome-cerveja-input').focus();
+			
 			$('.js-abas-venda a').click(function(e) {
 				e.preventDefault();
 				$(this).tab('show');
@@ -223,5 +224,6 @@
 	<script th:src="@{/javascript/cliente.pesquisa-rapida.js}"></script>
 	<script th:src="@{/javascript/venda.autocomplete-itens.js}"></script>
 	<script th:src="@{/javascript/venda.tabela-itens.js}"></script>
+	<script th:src="@{/javascript/vendors/sweetalert.min.js}"></script>
 </th:block>
 </html>

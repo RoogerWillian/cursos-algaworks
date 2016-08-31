@@ -134,12 +134,7 @@ public class Cerveja implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-	@Override
-	public String toString() {
-		return "Cerveja [sku=" + sku + ", nome=" + nome + ", descricao=" + descricao + "]";
-	}
-
+	
 	public String getDescricao() {
 		return descricao;
 	}
@@ -226,6 +221,14 @@ public class Cerveja implements Serializable {
 
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
+	}
+
+	@Override
+	public String toString() {
+		return "Cerveja [codigo=" + codigo + ", sku=" + sku + ", nome=" + nome + ", descricao=" + descricao + ", valor="
+				+ valor + ", teorAlcoolico=" + teorAlcoolico + ", comissao=" + comissao + ", quantidadeEstoque="
+				+ quantidadeEstoque + ", origem=" + origem + ", sabor=" + sabor + ", estilo=" + estilo.getNome() + ", foto="
+				+ foto + ", contentType=" + contentType + "]";
 	}
 
 }

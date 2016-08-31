@@ -17,7 +17,7 @@ Brewer.Autocomplete = (function(){
 			}.bind(this),
 			getValue : 'nome',
 			minCharNumber : 3,
-			requestDelay : 300,
+			requestDelay : 200,
 			ajaxSettings : {
 				contentType : 'application/json'
 			},
@@ -26,7 +26,18 @@ Brewer.Autocomplete = (function(){
 				method : template.bind(this)
 			},
 			list : {
-				onChooseEvent : onItemSelecionado.bind(this)
+				onChooseEvent : onItemSelecionado.bind(this),
+				showAnimation: {
+					type: "fade", //normal|slide|fade
+					time: 400,
+					callback: function() {}
+				},
+
+				hideAnimation: {
+					type: "fade", //normal|slide|fade
+					time: 400,
+					callback: function() {}
+				}
 			}
 		};
 		
@@ -43,6 +54,7 @@ Brewer.Autocomplete = (function(){
 		this.skuOuNomeInput.val('');
 		this.skuOuNomeInput.focus();
 	}
+	
 	
 	return Autocomplete;
 	
