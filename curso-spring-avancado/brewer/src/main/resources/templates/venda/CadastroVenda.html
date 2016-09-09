@@ -16,7 +16,7 @@
 	<section layout:fragment="conteudo">
 		<form method="post" th:object="${venda}" class="form-vertical"
 			th:action="@{/vendas/nova}">
-			
+			<input type="hidden" id="uuid" th:value="${uuid}"/>
 			<div class="page-header">
 				<div class="container-fluid">
 					<div class="row">
@@ -56,11 +56,11 @@
 
 				<div class="row">
 					<div class="col-sm-4">
-						<div class="aw-box">
+						<div class="aw-box js-valor-total-box-container">
 							<div class="aw-box__icon">
 								<i class="fa  fa-usd  fa-3x"></i>
 							</div>
-							<div class="aw-box__value">R$0,00</div>
+							<div class="aw-box__value">R$<span class="js-valor-total-box">0,00</span></div>
 							<div class="aw-box__title">Total</div>
 						</div>
 					</div>
@@ -108,7 +108,7 @@
 
 					</div>
 
-					<div class="form-group col-sm-4 bw-required">
+					<div class="form-group col-sm-4">
 						<label for="valorFrete" class="control-label">Valor do
 							frete</label>
 						<div class="input-group">
@@ -224,6 +224,6 @@
 	<script th:src="@{/javascript/cliente.pesquisa-rapida.js}"></script>
 	<script th:src="@{/javascript/venda.autocomplete-itens.js}"></script>
 	<script th:src="@{/javascript/venda.tabela-itens.js}"></script>
-	<script th:src="@{/javascript/vendors/sweetalert.min.js}"></script>
+	<script th:src="@{/javascript/venda.js}"></script>
 </th:block>
 </html>

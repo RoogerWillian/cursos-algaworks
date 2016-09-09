@@ -3,6 +3,9 @@ Brewer.TabelaItens = (function() {
 	function TabelaItens(autocomplete) {
 		this.autocomplete = autocomplete;
 		this.tabelaCervejasContainer = $('.js-container-cervejas');
+		this.uuid = $('#uuid').val();
+		this.emitter = $({});
+		this.on = this.emitter.on.bind(this.emitter);
 	}
 
 	TabelaItens.prototype.iniciar = function() {
@@ -15,7 +18,8 @@ Brewer.TabelaItens = (function() {
 			url : 'item',
 			method : 'POST',
 			data : {
-				codigoCerveja : item.codigo
+				codigoCerveja : item.codigo,
+				uuid : this.uuid
 			}
 		});
 
@@ -25,24 +29,38 @@ Brewer.TabelaItens = (function() {
 
 	function onItemAdicionadoNoServidor(html) {
 		this.tabelaCervejasContainer.html(html);
-		$('.js-alterar-quantidade-cerveja').on('change', onItemQuantidadeAlterada.bind(this));
-		$('.js-tabela-item').on('dblclick', onDoubleClick);
+		
+		var quantidadeItemInput = $('.js-alterar-quantidade-cerveja');
+		quantidadeItemInput.on('change', onItemQuantidadeAlterada.bind(this));
+		quantidadeItemInput.maskMoney({ precision : 0, thousands : '' });
+		
+		var tabelaItem = $('.js-tabela-item');
+		tabelaItem.on('dblclick', onDoubleClick);
 		$('.js-exclusao-item-btn').on('click', onExcluirItemClick.bind(this));
 		
 		this.autocomplete.skuOuNomeInput.focus();
+		
+		this.emitter.trigger('tabela-itens-atualizada', tabelaItem.data('valor-total'));
 	}
 
 	function onItemQuantidadeAlterada(evento) {
 
 		var input = $(evento.target);
 		var quantidade = input.val();
+		
+		if(quantidade <= 0){
+			input.val(1);
+			quantidade = 1;
+		}
+		
 		var codigoCerveja = input.data('codigo-cerveja');
 
 		var resposta = $.ajax({
 			url : 'item/' + codigoCerveja,
 			method : 'PUT',
 			data : {
-				quantidade : quantidade
+				quantidade : quantidade,
+				uuid : this.uuid
 			}
 		});
 
@@ -57,7 +75,7 @@ Brewer.TabelaItens = (function() {
 		var codigoCerveja = $(evento.target).data('codigo-cerveja');
 		
 		var resposta = $.ajax({
-			url : 'item/' + codigoCerveja,
+			url : 'item/' + this.uuid + '/' +  codigoCerveja,
 			method : 'DELETE'
 		});
 		
@@ -66,12 +84,3 @@ Brewer.TabelaItens = (function() {
 	
 	return TabelaItens;
 }());
-
-$(function() {
-
-	var autocomplete = new Brewer.Autocomplete();
-	autocomplete.iniciar();
-
-	var tabelaItens = new Brewer.TabelaItens(autocomplete);
-	tabelaItens.iniciar();
-});

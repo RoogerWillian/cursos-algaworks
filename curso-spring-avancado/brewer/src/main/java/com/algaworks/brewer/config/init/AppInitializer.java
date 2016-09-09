@@ -1,4 +1,4 @@
-package com.algaworks.brewer.config.init;
+ package com.algaworks.brewer.config.init;
 
 import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
