@@ -57,6 +57,7 @@ Brewer.MaskCep = (function() {
 	return MaskCep;
 }());
 
+
 Brewer.MaskDate = (function(){
 	function MaskDate(){
 		this.inputDate = $('.js-date');

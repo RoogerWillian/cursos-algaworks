@@ -16,7 +16,7 @@
 	<section layout:fragment="conteudo">
 		<form method="post" th:object="${venda}" class="form-vertical"
 			th:action="@{/vendas/nova}">
-			<input type="hidden" id="uuid" th:value="${uuid}"/>
+			<input type="hidden" id="uuid" th:field="*{uuid}"/>
 			<div class="page-header">
 				<div class="container-fluid">
 					<div class="row">
@@ -53,7 +53,7 @@
 			<!-- .page-header -->
 
 			<div class="container-fluid">
-
+				<brewer:message />
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="aw-box js-valor-total-box-container">
@@ -91,8 +91,8 @@
 
 				<div class="row">
 					<div class="form-group  col-sm-4  bw-required">
-						<label for="nomeCliente" class="control-label">Cliente</label> <input
-							type="hidden" id="codigoCliente" />
+						<label for="nomeCliente" class="control-label">Cliente</label> 
+						<input type="hidden" id="codigoCliente" th:field="*{cliente}"/>
 						<div class="input-group">
 							<input type="text" class="form-control" id="nomeCliente"
 								readonly="readonly"
@@ -114,7 +114,7 @@
 						<div class="input-group">
 							<div class="input-group-addon">R$</div>
 							<input type="text" class="form-control js-decimal"
-								id="valorFrete" maxlength="14" />
+								id="valorFrete" maxlength="14" th:field="*{valorFrete}" />
 						</div>
 					</div>
 
@@ -123,7 +123,7 @@
 							desconto</label>
 						<div class="input-group">
 							<div class="input-group-addon">R$</div>
-							<input type="text" maxlength="14"
+							<input type="text" maxlength="14" th:field="*{valorDesconto}"
 								class="form-control  js-decimal" id="valorDesconto" />
 						</div>
 					</div>
@@ -160,21 +160,20 @@
 					<div class="tab-pane" id="entrega">
 						<div class="row">
 							<div class="form-group  col-sm-3">
-								<label class="control-label" for="dataEntrega">Data da
-									entrega</label> <input type="text" class="form-control"
-									id="dataEntrega" />
+								<label class="control-label" for="dataEntrega">Data da entrega</label> 
+								<input type="text" class="form-control" id="dataEntrega" th:field="*{dataEntrega}" />
 							</div>
 
 							<div class="form-group  col-sm-3">
 								<label class="control-label" for="horarioEntrega">Horário
-									de entrega</label> <input type="text" class="form-control"
-									id="horarioEntrega" />
+									de entrega</label>
+								<input type="text" class="form-control" id="horarioEntrega" th:field="*{horaEntrega}"/>
 							</div>
 						</div>
 
 						<div class="row">
 							<div class="form-group  col-sm-12">
-								<textarea class="form-control" id="dataEntrega" rows="5"
+								<textarea class="form-control" id="dataEntrega" rows="5" th:field="*{observacao}"
 									placeholder="Alguma observação para o entregador desse pedido?"></textarea>
 							</div>
 						</div>
