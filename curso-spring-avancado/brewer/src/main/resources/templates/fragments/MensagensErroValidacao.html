@@ -6,7 +6,7 @@
 	th:fragment="message">
 	<button type="button" class="close" data-dismiss="alert"
 		aria-label="Close">
-		<span aria-hidden="true">&times;</span>
+		<i style="margin-right: 10px" aria-hidden="true">&times;</i>
 	</button>
 	<th:block th:each="detailedError : ${#fields.detailedErrors()}">
 		<div class="message">

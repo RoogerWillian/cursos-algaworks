@@ -4,13 +4,16 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,14 +41,14 @@ public class Venda {
 	private BigDecimal valorDesconto;
 
 	@Column(name = "valor_total")
-	private BigDecimal valorTotal;
+	private BigDecimal valorTotal = BigDecimal.ZERO;
 
 	private String observacao;
 
 	@Column(name = "data_hora_entrega")
 	private LocalDateTime dataHoraEntrega;
 
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "codigo_cliente")
 	private Cliente cliente;
 
@@ -57,7 +60,7 @@ public class Venda {
 	private StatusVenda status = StatusVenda.ORCAMENTO;
 
 	@OneToMany(mappedBy = "venda", cascade = CascadeType.ALL)
-	private List<ItemVenda> itens;
+	private List<ItemVenda> itens = new ArrayList<>();
 
 	@Transient
 	private String uuid;
@@ -66,41 +69,7 @@ public class Venda {
 	private LocalDate dataEntrega;
 
 	@Transient
-	private LocalTime horaEntrega;
-
-	public boolean isNova() {
-		return codigo == null;
-	}
-
-	public void adicionarItens(List<ItemVenda> itens) {
-		this.itens = itens;
-		itens.forEach(i -> i.setVenda(this));
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Venda other = (Venda) obj;
-		if (codigo == null) {
-			if (other.codigo != null)
-				return false;
-		} else if (!codigo.equals(other.codigo))
-			return false;
-		return true;
-	}
+	private LocalTime horarioEntrega;
 
 	public Long getCodigo() {
 		return codigo;
@@ -150,12 +119,12 @@ public class Venda {
 		this.observacao = observacao;
 	}
 
-	public List<ItemVenda> getItens() {
-		return itens;
+	public LocalDateTime getDataHoraEntrega() {
+		return dataHoraEntrega;
 	}
 
-	public void setItens(List<ItemVenda> itens) {
-		this.itens = itens;
+	public void setDataHoraEntrega(LocalDateTime dataHoraEntrega) {
+		this.dataHoraEntrega = dataHoraEntrega;
 	}
 
 	public Cliente getCliente() {
@@ -182,6 +151,14 @@ public class Venda {
 		this.status = status;
 	}
 
+	public List<ItemVenda> getItens() {
+		return itens;
+	}
+
+	public void setItens(List<ItemVenda> itens) {
+		this.itens = itens;
+	}
+
 	public String getUuid() {
 		return uuid;
 	}
@@ -190,28 +167,70 @@ public class Venda {
 		this.uuid = uuid;
 	}
 
-	public void setDataEntrega(LocalDate dataEntrega) {
-		this.dataEntrega = dataEntrega;
-	}
-
-	public LocalTime getHoraEntrega() {
-		return horaEntrega;
-	}
-
-	public void setHoraEntrega(LocalTime horaEntrega) {
-		this.horaEntrega = horaEntrega;
-	}
-
 	public LocalDate getDataEntrega() {
 		return dataEntrega;
 	}
 
-	public LocalDateTime getDataHoraEntrega() {
-		return dataHoraEntrega;
+	public void setDataEntrega(LocalDate dataEntrega) {
+		this.dataEntrega = dataEntrega;
 	}
 
-	public void setDataHoraEntrega(LocalDateTime dataHoraEntrega) {
-		this.dataHoraEntrega = dataHoraEntrega;
+	public LocalTime getHorarioEntrega() {
+		return horarioEntrega;
+	}
+
+	public void setHorarioEntrega(LocalTime horarioEntrega) {
+		this.horarioEntrega = horarioEntrega;
+	}
+
+	public boolean isNova() {
+		return codigo == null;
+	}
+	
+	public void adicionarItens(List<ItemVenda> itens) {
+		this.itens = itens;
+		this.itens.forEach(i -> i.setVenda(this));
+	}
+	
+	public void calcularValorTotal() {
+		BigDecimal valorTotalItens = getItens().stream()
+				.map(ItemVenda::getValorTotal)
+				.reduce(BigDecimal::add)
+				.orElse(BigDecimal.ZERO);
+		
+		this.valorTotal = calcularValorTotal(valorTotalItens, getValorFrete(), getValorDesconto());
+	}
+	
+	private BigDecimal calcularValorTotal(BigDecimal valorTotalItens, BigDecimal valorFrete, BigDecimal valorDesconto) {
+		BigDecimal valorTotal = valorTotalItens
+				.add(Optional.ofNullable(valorFrete).orElse(BigDecimal.ZERO))
+				.subtract(Optional.ofNullable(valorDesconto).orElse(BigDecimal.ZERO));
+		return valorTotal;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Venda other = (Venda) obj;
+		if (codigo == null) {
+			if (other.codigo != null)
+				return false;
+		} else if (!codigo.equals(other.codigo))
+			return false;
+		return true;
 	}
 
 }
