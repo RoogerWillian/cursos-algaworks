@@ -14,7 +14,7 @@
 </head>
 <body>
 	<section layout:fragment="conteudo">
-		<form method="post" th:object="${venda}" class="form-vertical"
+		<form method="post" th:object="${venda}" class="form-vertical js-formulario-principal"
 			th:action="@{/vendas/nova}">
 			<input type="hidden" id="uuid" th:field="*{uuid}"/>
 			<div class="page-header">
@@ -28,15 +28,15 @@
 							<div class="aw-page-header-controls">
 
 								<div class="btn-group hidden-xs hidden-sm">
-									<button type="submit" class="btn btn-primary">Finalizar</button>
+									<button type="submit" class="btn btn-primary js-submit-btn" data:acao="salvar">Finalizar</button>
 									<button type="button" class="btn  btn-primary  dropdown-toggle"
 										data-toggle="dropdown">
 										<span class="caret"></span>
 									</button>
 
 									<ul class="dropdown-menu">
-										<li><a href="#">Finalizar e emitir</a></li>
-										<li><a href="#">Finalizar e enviar por e-mail</a></li>
+										<li><a href="#" class="js-submit-btn" data:acao="emitir">Finalizar e emitir</a></li>
+										<li><a href="#" class="js-submit-btn" data:acao="enviarEmail">Finalizar e enviar por e-mail</a></li>
 									</ul>
 								</div>
 
@@ -172,15 +172,15 @@
 				<!-- Botões -->
 				<div class="btn-group hidden-lg col-xs-11">
 					<div class="form-control">
-						<button type="submit" class="btn btn-primary form-control">Finalizar</button>
+						<button type="submit" class="btn btn-primary form-control js-submit-btn" data:acao="salvar">Finalizar</button>
 						<button type="button" class="btn  btn-primary  dropdown-toggle"
 							data-toggle="dropdown">
 							<span class="caret"></span>
 						</button>
 
 						<ul class="dropdown-menu">
-							<li><a href="#">Finalizar e emitir</a></li>
-							<li><a href="#">Finalizar e enviar por e-mail</a></li>
+							<li><a href="#" class="js-submit-btn" data:acao="emitir">Finalizar e emitir</a></li>
+							<li><a href="#" class="js-submit-btn" data:acao="enviarEmail">Finalizar e enviar por e-mail</a></li>
 						</ul>
 					</div>
 				</div>
@@ -212,6 +212,7 @@
 	<script th:src="@{/javascript/cliente.pesquisa-rapida.js}"></script>
 	<script th:src="@{/javascript/venda.autocomplete-itens.js}"></script>
 	<script th:src="@{/javascript/venda.tabela-itens.js}"></script>
+	<script th:src="@{/javascript/venda.botoes-submit.js}"></script>
 	<script th:src="@{/javascript/venda.js}"></script>
 </th:block>
 </html>
