@@ -5,6 +5,7 @@
 	xmlns:brewer="http://brewer.algaworks.com"
 	layout:decorate="~{layout/LayoutPadrao}">
 <head>
+  <meta charset="UTF-8"/>
 <title>Pesquisa de clientes</title>
 </head>
 <body>
@@ -54,6 +55,7 @@
 									<brewer:order pagina="${pagina}" propriedade="nome" texto="Nome"/>
 									
 								</th>
+								<th>E-mail</th>
 								<th class="table-clientes-col-tipo-pessoa">
 									<brewer:order pagina="${pagina}" propriedade="tipo" texto="Tipo Pessoa"/>
 								</th>
@@ -67,6 +69,7 @@
 						<tbody>
 							<tr th:each="cliente : ${pagina.conteudo}">
 								<td th:text="${cliente.nome}"></td>
+								<td th:text="${cliente.email}"></td>
 								<td class="text-center" th:text="${cliente.tipo.descricao}"></td>
 								<td class="text-right" th:text="${cliente.cpfOuCnpj}"></td>
 								<td class="text-right" th:text="${cliente.telefone}"></td>

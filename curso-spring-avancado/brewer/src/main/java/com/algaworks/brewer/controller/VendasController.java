@@ -23,6 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.algaworks.brewer.controller.page.PageWrapper;
 import com.algaworks.brewer.controller.validator.VendaValidator;
+import com.algaworks.brewer.mail.Mailer;
 import com.algaworks.brewer.model.Cerveja;
 import com.algaworks.brewer.model.StatusVenda;
 import com.algaworks.brewer.model.Venda;
@@ -55,6 +56,9 @@ public class VendasController {
 
 	@Autowired
 	private Vendas vendas;
+	
+	@Autowired
+	private Mailer mailer;
 	
 	@InitBinder("venda")
 	public void initBinder(WebDataBinder binder) {
@@ -90,8 +94,8 @@ public class VendasController {
 	@PostMapping(value = "/nova", params = "salvar")
 	public ModelAndView salvar(Venda venda, BindingResult result, RedirectAttributes attributes,
 			@AuthenticationPrincipal UsuarioLogado usuarioLogado) {
+		
 		validarVenda(venda, result);
-
 		if (result.hasErrors()) {
 			return nova(venda);
 		}
@@ -99,6 +103,7 @@ public class VendasController {
 		venda.setUsuario(usuarioLogado.getUsuario());
 
 		cadastroVendaService.salvar(venda);
+		
 		attributes.addFlashAttribute("mensagem", "Venda salva com sucesso");
 		return new ModelAndView("redirect:/vendas/nova");
 	}
@@ -129,8 +134,8 @@ public class VendasController {
 	@PostMapping(value = "/nova", params = "enviarEmail")
 	public ModelAndView enviarEmail(Venda venda, BindingResult result, RedirectAttributes attributes,
 			@AuthenticationPrincipal UsuarioLogado usuarioLogado) {
+		
 		validarVenda(venda, result);
-
 		if (result.hasErrors()) {
 			return nova(venda);
 		}
@@ -138,6 +143,8 @@ public class VendasController {
 		venda.setUsuario(usuarioLogado.getUsuario());
 
 		cadastroVendaService.salvar(venda);
+		mailer.enviar(venda);
+		
 		attributes.addFlashAttribute("mensagem", "Venda salva e e-mail enviado.");
 		return new ModelAndView("redirect:/vendas/nova");
 	}

@@ -1,4 +1,4 @@
- package com.algaworks.brewer.config.init;
+package com.algaworks.brewer.config.init;
 
 import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
@@ -9,6 +9,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 import com.algaworks.brewer.config.AppWebConfig;
 import com.algaworks.brewer.config.JPAConfig;
+import com.algaworks.brewer.config.MailConfig;
 import com.algaworks.brewer.config.SecurityConfig;
 import com.algaworks.brewer.config.ServiceConfig;
 
@@ -21,7 +22,7 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class<?>[] { AppWebConfig.class };
+		return new Class<?>[] { AppWebConfig.class, MailConfig.class };
 	}
 
 	@Override
