@@ -3,7 +3,10 @@ package com.algaworks.brewer.controller;
 import static java.util.UUID.randomUUID;
 import static org.springframework.util.StringUtils.isEmpty;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -18,10 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.algaworks.brewer.controller.page.PageWrapper;
 import com.algaworks.brewer.controller.validator.VendaValidator;
 import com.algaworks.brewer.model.Cerveja;
+import com.algaworks.brewer.model.StatusVenda;
 import com.algaworks.brewer.model.Venda;
 import com.algaworks.brewer.repository.Cervejas;
+import com.algaworks.brewer.repository.Vendas;
+import com.algaworks.brewer.repository.filter.venda.VendaFilter;
 import com.algaworks.brewer.security.UsuarioLogado;
 import com.algaworks.brewer.service.CadastroVendaService;
 import com.algaworks.brewer.session.TabelasItensSession;
@@ -31,6 +38,7 @@ import com.algaworks.brewer.session.TabelasItensSession;
 public class VendasController {
 
 	private static final String CADASTRO_NOVA_VENDA = "/venda/CadastroVenda";
+	private static final String PESQUISA_VENDA = "/venda/PesquisaVenda";
 	private static final String VENDA_ITENS = "/venda/TabelaItemVenda";
 
 	@Autowired
@@ -45,54 +53,67 @@ public class VendasController {
 	@Autowired
 	private VendaValidator vendaValidator;
 
-	@InitBinder
+	@Autowired
+	private Vendas vendas;
+	
+	@InitBinder("venda")
 	public void initBinder(WebDataBinder binder) {
 		binder.setValidator(vendaValidator);
+	}
+
+	@GetMapping
+	public ModelAndView pesquisar(VendaFilter vendaFilter,Pageable pageable, HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView(PESQUISA_VENDA);
+		
+		PageWrapper<Venda> pagina = new PageWrapper<>(vendas.filtrar(vendaFilter, pageable), request);
+		mv.addObject("pagina", pagina);
+		mv.addObject("todosStatus", StatusVenda.values());
+		return mv;
 	}
 
 	@GetMapping("/nova")
 	public ModelAndView nova(Venda venda) {
 		ModelAndView mv = new ModelAndView(CADASTRO_NOVA_VENDA);
-		
+
 		if (isEmpty(venda.getUuid())) {
 			venda.setUuid(randomUUID().toString());
 		}
-		
+
 		mv.addObject("itens", venda.getItens());
 		mv.addObject("valorFrete", venda.getValorFrete());
-		mv.addObject("valorDesconto", venda.getValorDesconto() );
+		mv.addObject("valorDesconto", venda.getValorDesconto());
 		mv.addObject("valorTotalItens", tabelaItens.getValorTotal(venda.getUuid()));
-		
+
 		return mv;
 	}
 
-	@PostMapping(value= "/nova", params = "salvar")
+	@PostMapping(value = "/nova", params = "salvar")
 	public ModelAndView salvar(Venda venda, BindingResult result, RedirectAttributes attributes,
 			@AuthenticationPrincipal UsuarioLogado usuarioLogado) {
 		validarVenda(venda, result);
-		
-		if(result.hasErrors()){
+
+		if (result.hasErrors()) {
 			return nova(venda);
 		}
-		
+
 		venda.setUsuario(usuarioLogado.getUsuario());
 
 		cadastroVendaService.salvar(venda);
 		attributes.addFlashAttribute("mensagem", "Venda salva com sucesso");
 		return new ModelAndView("redirect:/vendas/nova");
 	}
-	
-	@PostMapping(value= "/nova", params = "emitir")
+
+	@PostMapping(value = "/nova", params = "emitir")
 	public ModelAndView emitir(Venda venda, BindingResult result, RedirectAttributes attributes,
 			@AuthenticationPrincipal UsuarioLogado usuarioLogado) {
 		validarVenda(venda, result);
-		
-		if(result.hasErrors()){
+
+		if (result.hasErrors()) {
 			return nova(venda);
 		}
-		
+
 		venda.setUsuario(usuarioLogado.getUsuario());
-		
+
 		cadastroVendaService.emitir(venda);
 		attributes.addFlashAttribute("mensagem", "Venda emitida com sucesso");
 		return new ModelAndView("redirect:/vendas/nova");
@@ -101,21 +122,21 @@ public class VendasController {
 	private void validarVenda(Venda venda, BindingResult result) {
 		venda.adicionarItens(tabelaItens.getItens(venda.getUuid()));
 		venda.calcularValorTotal();
-		
+
 		vendaValidator.validate(venda, result);
 	}
-	
-	@PostMapping(value= "/nova", params = "enviarEmail")
+
+	@PostMapping(value = "/nova", params = "enviarEmail")
 	public ModelAndView enviarEmail(Venda venda, BindingResult result, RedirectAttributes attributes,
 			@AuthenticationPrincipal UsuarioLogado usuarioLogado) {
 		validarVenda(venda, result);
-		
-		if(result.hasErrors()){
+
+		if (result.hasErrors()) {
 			return nova(venda);
 		}
-		
+
 		venda.setUsuario(usuarioLogado.getUsuario());
-		
+
 		cadastroVendaService.salvar(venda);
 		attributes.addFlashAttribute("mensagem", "Venda salva e e-mail enviado.");
 		return new ModelAndView("redirect:/vendas/nova");

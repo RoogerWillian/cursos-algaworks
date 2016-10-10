@@ -2,20 +2,20 @@
 <application generated-by="eclipse" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.zeroturnaround.com" xsi:schemaLocation="http://www.zeroturnaround.com http://update.zeroturnaround.com/jrebel/rebel-2_1.xsd">
 
 	<classpath>
-		<dir name="/home/rogerwillian/projetos-git/cursos-algaworks/curso-spring-avancado/brewer/target/test-classes">
+		<dir name="D:\projetos-git\cursos-algaworks\curso-spring-avancado\brewer\target\test-classes">
 		</dir>
-		<dir name="/home/rogerwillian/projetos-git/cursos-algaworks/curso-spring-avancado/brewer/target/classes">
+		<dir name="D:\projetos-git\cursos-algaworks\curso-spring-avancado\brewer\target\classes">
 		</dir>
 	</classpath>
 
 	<web>
 		<link target="/">
-			<dir name="/home/rogerwillian/projetos-git/cursos-algaworks/curso-spring-avancado/brewer/target/m2e-wtp/web-resources">
+			<dir name="D:\projetos-git\cursos-algaworks\curso-spring-avancado\brewer\target\m2e-wtp\web-resources">
 				<exclude name="/"/>
 			</dir>
 		</link>
 		<link target="/">
-			<dir name="/home/rogerwillian/projetos-git/cursos-algaworks/curso-spring-avancado/brewer/src/main/webapp">
+			<dir name="D:\projetos-git\cursos-algaworks\curso-spring-avancado\brewer\src\main\webapp">
 			</dir>
 		</link>
 	</web>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:brewer="http://brewer.algaworks.com"
+	layout:decorate="~{layout/LayoutPadrao}"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<title>Pesquisa de vendas</title>
+</head>
+<body>
+	<section layout:fragment="conteudo">
+		<form th:action="@{/vendas}" method="get" th:object="${vendaFilter}">
+			
+			<div class="page-header">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-sm-8">
+							<h1>Pesquisa de vendas</h1>
+						</div>
+						
+						<div class="col-sm-4">
+							<div class="aw-page-header-controls">
+								<div>
+									<a class="btn  btn-default" th:href="@{/vendas/nova}">
+										<i class="glyphicon  glyphicon-plus-sign"></i>
+										<span class="hidden-xs  hidden-sm">Nova venda</span>
+									</a>
+								</div>
+								
+								<div class="bw-divider-vertical"></div>
+								<button type="submit" class="btn btn-primary hidden-xs hidden-sm">
+									<i class="glyphicon  glyphicon-search"></i>
+									<span class="hidden-xs">Pesquisar</span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> <!-- ./page-header -->
+			
+			<div class="container-fluid">
+				
+				<div class="row">
+					<div class="form-group col-sm-6">
+						<label class="control-label" for="codigo">Codigo</label>
+						<input class="form-control" id="codigo" autofocus="autofocus"
+							th:field="*{codigo}"/>
+					</div>
+	
+					<div class="form-group col-sm-6">
+						<label class="control-label" for="status">Status</label>
+						<select class="form-control" id="status" th:field="*{statusVenda}">
+							<option value="">Todos os status</option>
+							<option th:each="status : ${todosStatus}" th:value="${status}"
+								th:text="${status.descricao}"/>
+						</select>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="form-group col-sm-6">
+						<label class="control-label">Date de criação</label>
+						<div class="form-inline">
+							<input id="dataCriacaoFinal" autocomplete="off" type="text" class="form-control aw-form-control-inline-sm js-date"
+								th:field="*{desde}"/>	
+							<label for="dataCriacaoFinal" class="aw-form-label-between">até</label>
+							<input type="text" class="form-control  aw-form-control-inline-sm  js-date" id="dataCriacaoInicial" 
+							autocomplete="off" th:field="*{ate}"/>
+						</div>
+					</div>
+					
+					<div class="form-group  col-sm-6">
+						<label for="valorMinimo">Valor total</label>
+						<div class="form-inline">
+							<input type="text" class="form-control  aw-form-control-inline-sm  js-decimal" id="valorMinimo" 
+								th:field="*{valorMinimo}"/>
+							<label for="valorMaximo" class="aw-form-label-between">até</label>
+							<input type="text" class="form-control  aw-form-control-inline-sm  js-decimal" id="valorMaximo"
+								th:field="*{valorMaximo}"/>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="form-group col-sm-6">
+						<label class="control-label" for="nomeCliente">Nome cliente</label>
+						<input id="nomeCliente" class="form-control" th:field="*{nomeCliente}" />
+					</div>
+
+					<div class="form-group col-sm-6">
+						<label class="control-label" for="cpfcnpj">CPF/CNPJ</label>
+						<input id="cpfcnpj" class="form-control" th:field="*{cpfOuCpnjCliente}"/>
+					</div>
+				</div>
+				
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Código</th>
+								<th>Cliente</th>
+								<th>Data de criação</th>
+								<th>Valor total</th>
+								<th>Vendedor</th>
+								<th>Status</th>
+								<th class="table-col-acoes"></th>
+							</tr>
+						</thead>
+						
+						<tbody>
+							
+							<tr th:each="venda : ${pagina.conteudo}">
+								<td th:text="${venda.codigo}"></td>
+								<td th:text="${venda.cliente.nome}"></td>
+								<td th:text="${{venda.dataCriacao}}"></td>
+								<td th:text="|R$ ${{venda.valorTotal}}|"></td>
+								<td th:text="${venda.usuario.nome}"></td>
+								<td th:text="${venda.status.descricao}"></td>
+								<td class="text-center">
+				   					<a class="btn  btn-link  btn-xs  js-tooltip" title="Editar" href="#">
+				   						<i class="glyphicon glyphicon-pencil"></i>
+				   					</a>
+			                 	</td>
+							</tr>
+							
+							<tr th:if="${pagina.vazia}">
+			                	<td colspan="7">Nenhuma venda encontrada</td>
+			                </tr>
+						</tbody>
+					</table>
+				</div>
+				<brewer:pagination page="${pagina}"/>
+			</div>
+		</form>
+	</section>
+</body>
+</html>
