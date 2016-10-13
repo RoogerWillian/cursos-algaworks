@@ -89,7 +89,11 @@ public class Cerveja implements Serializable {
 	public void prePersisteUpdate() {
 		sku = sku.toUpperCase();
 	}
-
+	
+	public boolean temFoto(){
+		return this.foto.isEmpty();
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
