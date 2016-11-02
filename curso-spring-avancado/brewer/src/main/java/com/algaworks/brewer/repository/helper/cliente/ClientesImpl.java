@@ -44,6 +44,11 @@ public class ClientesImpl implements ClientesQueries {
 		return new PageImpl<>(criteria.list(), pageable, total(filter));
 	}
 
+	@Override
+	public Long totalClientes() {
+		return manager.createQuery("select count(*) from Cliente",Long.class).getSingleResult();
+	}
+
 	private Long total(ClienteFilter filter) {
 		Criteria criteria = manager.unwrap(Session.class).createCriteria(Cliente.class);
 		adicionarFiltro(criteria, filter);
@@ -62,5 +67,6 @@ public class ClientesImpl implements ClientesQueries {
 			}
 		}
 	}
+
 
 }

@@ -3,6 +3,8 @@ package com.algaworks.brewer.controller;
 import static java.util.UUID.randomUUID;
 import static org.springframework.util.StringUtils.isEmpty;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +21,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.algaworks.brewer.controller.page.PageWrapper;
 import com.algaworks.brewer.controller.validator.VendaValidator;
+import com.algaworks.brewer.dto.VendaMes;
+import com.algaworks.brewer.dto.VendaPorOrigem;
 import com.algaworks.brewer.mail.Mailer;
 import com.algaworks.brewer.model.Cerveja;
 import com.algaworks.brewer.model.StatusVenda;
@@ -169,7 +174,19 @@ public class VendasController {
 		tabelaItens.excluirItem(uuid, cerveja);
 		return mvTabelaItens(uuid);
 	}
-
+	
+	@GetMapping("/totalPorMes")
+	public @ResponseBody List<VendaMes> listarTotalVendaPorMes(){
+		return vendas.totalPorMes();
+	}
+	
+	@GetMapping("/totalPorOrigem")
+	public @ResponseBody List<VendaPorOrigem> listarTotalVendaPorOrigem(){
+		return vendas.totalPorOrigem();
+	}
+	
+	
+	
 	private ModelAndView mvTabelaItens(String uuid) {
 		ModelAndView mv = new ModelAndView(VENDA_ITENS);
 		mv.addObject("itens", tabelaItens.getItens(uuid));

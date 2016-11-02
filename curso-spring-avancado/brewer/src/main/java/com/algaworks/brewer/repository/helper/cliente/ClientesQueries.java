@@ -12,4 +12,5 @@ public interface ClientesQueries {
 	
 	public Page<Cliente> filtrar(ClienteFilter filter, Pageable pageable);
 	
+	public Long totalClientes();
 }

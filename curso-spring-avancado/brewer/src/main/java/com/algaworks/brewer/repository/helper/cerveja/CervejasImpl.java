@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.algaworks.brewer.dto.CervejaDTO;
+import com.algaworks.brewer.dto.ValorItensEstoque;
 import com.algaworks.brewer.model.Cerveja;
 import com.algaworks.brewer.repository.filter.cerveja.CervejaFilter;
 import com.algaworks.brewer.repository.paginacao.PaginacaoUtil;
@@ -41,6 +42,29 @@ public class CervejasImpl implements CervejasQueries {
 
 		adicionarFiltro(filter, criteria);
 		return new PageImpl<>(criteria.list(), pageable, total(filter));
+	}
+	
+	@Override
+	public ValorItensEstoque valorItensEstoque() {
+		String query = "select new com.algaworks.brewer.dto.ValorItensEstoque(sum(valor * quantidadeEstoque), sum(quantidadeEstoque)) from Cerveja";
+		return manager.createQuery(query, ValorItensEstoque.class).getSingleResult();
+	}
+	
+	@Override
+	public List<CervejaDTO> porNomeOuSku(String skuOuNome) {
+
+		StringBuilder jpql = new StringBuilder();
+		jpql.append("select new com.algaworks.brewer.dto.CervejaDTO(codigo,nome,sku,origem,valor,foto) ");
+		jpql.append("from Cerveja where lower(sku) like lower(:skuOuNome) or lower(nome) like lower(:skuOuNome)");
+		List<CervejaDTO> cervejasFiltradas = manager.createQuery(jpql.toString(), CervejaDTO.class)
+				.setParameter("skuOuNome", skuOuNome + "%").getResultList();
+
+		return cervejasFiltradas;
+	}
+
+	@Override
+	public Long totalCervejasEmEstoque() {
+		return manager.createQuery("select sum(c.quantidadeEstoque) from Cerveja c", Long.class).getSingleResult();
 	}
 
 	private Long total(CervejaFilter filter) {
@@ -78,19 +102,6 @@ public class CervejasImpl implements CervejasQueries {
 
 	private boolean isEstiloPresente(CervejaFilter filter) {
 		return filter.getEstilo() != null && filter.getEstilo().getCodigo() != null;
-	}
-
-	@Override
-	public List<CervejaDTO> porNomeOuSku(String skuOuNome) {
-
-		StringBuilder jpql = new StringBuilder();
-		jpql.append("select new com.algaworks.brewer.dto.CervejaDTO(codigo,nome,sku,origem,valor,foto) ");
-		jpql.append("from Cerveja where lower(sku) like lower(:skuOuNome) or lower(nome) like lower(:skuOuNome)");
-		List<CervejaDTO> cervejasFiltradas = manager.createQuery(jpql.toString(), CervejaDTO.class)
-				.setParameter("skuOuNome", skuOuNome + "%")
-				.getResultList();
-		
-		return cervejasFiltradas;
 	}
 
 }
