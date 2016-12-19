@@ -11,7 +11,6 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.report.outputEncoding>UTF-8</project.report.outputEncoding>
 
 		<failOnMissingWebXml>false</failOnMissingWebXml>
 
@@ -27,11 +26,11 @@
 		<servlet.version>3.1.0</servlet.version>
 
 		<!-- Thymeleaf -->
-		<thymeleaf.version>3.0.0.RELEASE</thymeleaf.version>
+		<thymeleaf.version>3.0.1.RELEASE</thymeleaf.version>
 		<hibernate-validator.version>5.2.3.Final</hibernate-validator.version>
 
 		<!-- Thymeleaf - Layout Dialect -->
-		<thymeleaf-layout-dialect.version>2.0.0</thymeleaf-layout-dialect.version>
+		<thymeleaf-layout-dialect.version>2.0.1</thymeleaf-layout-dialect.version>
 
 		<!-- Logging -->
 		<log4j.version>2.6</log4j.version>
@@ -297,6 +296,12 @@
 			<artifactId>javax.mail</artifactId>
 			<version>${javax.mail.version}</version>
 			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
 		</dependency>
 	</dependencies>
 

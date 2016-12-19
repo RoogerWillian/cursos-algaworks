@@ -4,6 +4,7 @@ import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.ServletRegistration.Dynamic;
 
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.HttpPutFormContentFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -33,7 +34,13 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 	@Override
 	protected Filter[] getServletFilters() {
 		HttpPutFormContentFilter putFormContentFilter = new HttpPutFormContentFilter();
-		return new Filter[] { putFormContentFilter };
+
+		CharacterEncodingFilter encFilter = new CharacterEncodingFilter();;
+		encFilter.setEncoding("UTF-8");
+		encFilter.setForceEncoding(true);
+
+		return new Filter[] { putFormContentFilter, encFilter};
+
 	}
 
 	@Override

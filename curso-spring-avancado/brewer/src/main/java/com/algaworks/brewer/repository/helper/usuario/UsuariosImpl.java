@@ -57,7 +57,7 @@ public class UsuariosImpl implements UsuariosQueries {
 	@Transactional(readOnly = true)
 	public Page<Usuario> filtrar(UsuarioFilter filter, Pageable pageable) {
 
-Criteria criteria = manager.unwrap(Session.class).createCriteria(Usuario.class);
+		Criteria criteria = manager.unwrap(Session.class).createCriteria(Usuario.class);
 		
 		paginacaoUtil.preparar(criteria, pageable);
 		adicionarFiltro(filter, criteria);
